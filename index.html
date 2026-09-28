@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spesial Buat Kamu ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+    
+    /* Efek Animasi Partikel Hati di Background */
+    .bg-hearts {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      overflow: hidden; z-index: -1;
+    }
+    .heart {
+      position: absolute;
+      display: block;
+      list-style: none;
+      width: 20px; height: 20px;
+      background: rgba(255, 75, 43, 0.3);
+      animation: bubble 15s linear infinite;
+      bottom: -150px;
+      border-radius: 50% 50% 0 0;
+      transform: rotate(-45deg);
+    }
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px; height: 20px;
+      background: rgba(255, 75, 43, 0.3);
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+
+    @keyframes bubble {
+      0% { transform: translateY(0) rotate(-45deg); opacity: 1; border-radius: 50% 50% 0 0; }
+      100% { transform: translateY(-1000px) rotate(-45deg); opacity: 0; border-radius: 50% 50% 0 0; }
+    }
+
+    /* Kartu Utama */
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      position: relative;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.5s ease-in-out;
+      pointer-events: none;
+    }
+    .card.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .photo {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ff4b2b;
+      margin-bottom: 15px;
+    }
+    h1 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: #ff2a5f; margin-bottom: 10px; }
+    p { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+    
+    .btn-container { display: flex; justify-content: center; gap: 15px; min-height: 50px; position: relative; }
+    button {
+      padding: 10px 25px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-yes { background: #ff4b2b; color: white; box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3); }
+    .btn-no { background: #ccc; color: #333; position: absolute; transition: left 0.1s ease, top 0.1s ease; }
+
+    /* Gaya overlay pop-up yang estetik */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .popup-box {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-width: 350px;
+      width: 100%;
+      animation: zoomIn 0.3s ease-out;
+    }
+    .popup-box h2 { font-size: 1.5rem; color: #ff2a5f; margin-bottom: 10px; }
+    .popup-box p { font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5; color: #444; }
+    .popup-btn { background: #ff4b2b; color: white; width: 100%; }
+
+    @keyframes zoomIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Efek Hati Berjatuhan -->
+  <div class="bg-hearts">
+    <div class="heart" style="left: 10%; width: 25px; height: 25px; animation-delay: 0s;"></div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="heart" style="left: 55%; width: 15px; height: 15px; animation-delay: 4s;"></div>
+    <div class="heart" style="left: 70%; animation-delay: 6s;"></div>
+    <div class="heart" style="left: 85%; width: 30px; height: 30px; animation-delay: 8s;"></div>
+  </div>
+
+  <!-- POP-UP OVERLAY UNTUK 5x INTERAKSI -->
+  <div id="overlay" class="overlay">
+    <div class="popup-box">
+      <h2 id="popup-title">Pop Up 1/5 👋</h2>
+      <p id="popup-text">Hai sayang! Selamat datang yaaa... Ada sesuatu yang penting banget nih mau aku omongin ke kamu. 👉👈</p>
+      <button class="popup-btn" onclick="nextPopup()">Lanjut 👀</button>
+    </div>
+  </div>
+
+  <!-- KARTU UTAMA (Akan Tampil Setelah Pop-up ke-5) -->
+  <div class="card" id="mainCard">
+    <!-- Ganti URL gambar di bawah dengan fotomu bersama pacar -->
+    <img class="photo" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Foto Bersama">
+    <h1>Sekarang Jujur ya! ❤️</h1>
+    <p>Setelah baca semua pesan tadi, intinya aku mau nanya satu hal ini aja...</p>
+    <p><strong>"Kamu mau nggak terus sama-sama aku, sayang-sayangan terus sama aku?"</strong></p>
+    
+    <div class="btn-container">
+      <button class="btn-yes" onclick="akhirBahagia()">Mau Banget! 🥰</button>
+      <button class="btn-no" id="btnNo" onmouseover="kabur()" onclick="kabur()">Gak Mau 😜</button>
+    </div>
+  </div>
+
+  <!-- POPUP AKHIR (BAHAGIA) -->
+  <div id="popupAkhir" class="overlay" style="display: none;">
+    <div class="popup-box">
+      <h2>Yaaayy! 🥰💖🎉</h2>
+      <p>Aaaah seneng bangeeet! Makasih ya sayang udah mau bertahan dan terus bareng-bareng sama aku. Aku janji bakal terus sayang sama kamu.</p>
+      <p style="font-size: 0.8rem; color: #888;">Screenshot ini dan kirim ke aku yaa! 😘</p>
+      <button class="popup-btn" onclick="tutupSemua()">Selesai & Peluk Erat! 🤗❤️</button>
+    </div>
+  </div>
+
+  <script>
+    let popupStep = 1;
+
+    // Kata-kata untuk 5x Pop up
+    const popups = {
+      2: {
+        title: "Pop Up 2/5 🥺",
+        text: "Janji dulu ya, baca ini sampai selesai dan jangan buru-buru tutup. Okeee? Aku cuma pengen kamu tahu isi hatiku yang paling jujur.",
+        btn: "Aku Janji! ❤️"
+      },
+      3: {
+        title: "Pop Up 3/5 ✨",
+        text: "Tahu nggak? Setiap hari yang aku lewatin bareng kamu tuh selalu jadi hari terbaik buat aku. Kamu itu alasan kenapa aku bisa senyum tiap hari.",
+        btn: "Beneran? 🤭"
+      },
+      4: {
+        title: "Pop Up 4/5 🌸",
+        text: "Makasih yaaa udah sabar sama segala sifat aku yang kadang ngeselin. Makasih udah selalu jadi orang yang paling baik buat aku. Aku beruntung banget punya kamu.",
+        btn: "Makasih juga sayang 💕"
+      },
+      5: {
+        title: "Pop Up 5/5 😉",
+        text: "Nah, sekarang aku punya satu pertanyaan terakhir buat kamu di halaman selanjutnya. Dijawab dengan jujur dan penuh rasa sayang ya! Siap?",
+        btn: "Siap, Apa Tuh? 👉👈"
+      }
+    };
+
+    function nextPopup() {
+      popupStep++;
+      if (popupStep <= 5) {
+        // Ganti konten pop-up secara dinamis
+        document.getElementById('popup-title').innerText = popups[popupStep].title;
+        document.getElementById('popup-text').innerText = popups[popupStep].text;
+        document.querySelector('.popup-btn').innerText = popups[popupStep].btn;
+      } else {
+        // Selesai 5 pop-up, hilangkan overlay dan tampilkan kartu utama
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('mainCard').classList.add('show');
+      }
+    }
+
+    // Fungsi tombol "Gak Mau" yang selalu kabur
+    function kabur() {
+      const btnNo = document.getElementById('btnNo');
+      // Menghasilkan posisi acak namun aman di dalam batas layar HP / Laptop
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
+      btnNo.style.position = 'fixed';
+      btnNo.style.left = x + 'px';
+      btnNo.style.top = y + 'px';
+    }
+
+    function akhirBahagia() {
+      document.getElementById('popupAkhir').style.display = 'flex';
+    }
+
+    function tutupSemua() {
+      document.getElementById('popupAkhir').style.display = 'none';
+      alert("I love you more, Sayang! ❤️");
+    }
+  </script>
+</body>
+</html>

@@ -81,43 +81,36 @@
     h1 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: #ff2a5f; margin-bottom: 10px; }
     p { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
     
-    /* MODIFIKASI CONTAINER TOMBOL */
+    /* TATA LETAK AWAL SEJAJAR (FLEXBOX) */
     .btn-container { 
       display: flex; 
       justify-content: center; 
       align-items: center;
       gap: 15px; 
-      min-height: 60px; 
-      position: relative; 
-      width: 100%;
+      min-height: 50px; 
       margin-top: 15px;
     }
     button {
-      padding: 10px 25px;
+      padding: 10px 22px;
       font-size: 0.95rem;
       font-weight: bold;
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      transition: 0.2s;
     }
     .btn-yes { 
       background: #ff4b2b; 
       color: white; 
       box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3); 
-      z-index: 2;
     }
-    /* TOMBOL GAK MAU DI-LOCK */
     .btn-no { 
       background: #ccc; 
       color: #333; 
-      position: absolute; 
-      transition: left 0.15s ease-in-out; 
-      z-index: 1;
-      right: 15px; /* Posisi awal kanan */
+      transition: left 0.2s ease, top 0.2s ease; /* Transisi halus saat melompat */
+      z-index: 999;
     }
 
-    /* Gaya overlay pop-up yang estetik */
+    /* Overlay Pop-up */
     .overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -126,7 +119,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 100;
+      z-index: 1000;
       padding: 20px;
     }
     .popup-box {
@@ -173,11 +166,10 @@
     <img class="photo" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Foto Bersama">
     <h1>Sekarang Jujur ya! ❤️</h1>
     <p>Setelah baca semua pesan tadi, intinya aku mau nanya satu hal ini aja...</p>
-    <p><strong>"Kamu mau nggak wleo-wleo sambil sayang-sayangan terus sama aku sampe kamu becek dan dengkul aku geterr?"</strong></p>
+    <p><strong>"Kamu mau nggak terus sama-sama aku, sayang-sayangan terus sama aku?"</strong></p>
     
     <div class="btn-container">
       <button class="btn-yes" onclick="akhirBahagia()">Mau Banget! 🥰</button>
-      <!-- Menambahkan event touch agar responsif di HP -->
       <button class="btn-no" id="btnNo" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">Gak Mau 😜</button>
     </div>
   </div>
@@ -186,9 +178,9 @@
   <div id="popupAkhir" class="overlay" style="display: none;">
     <div class="popup-box">
       <h2>Yaaayy! 🥰💖🎉</h2>
-      <p>Aaaah seneng bangeeet! Makasih ya sayang udah mau sayang dan dengerin aku terus. Aku janji bakal terus sayang sama kamu.</p>
+      <p>Aaaah seneng bangeeet! Makasih ya sayang udah mau bertahan dan terus bareng-bareng sama aku. Aku janji bakal terus sayang sama kamu.</p>
       <p style="font-size: 0.8rem; color: #888;">Screenshot ini dan kirim ke aku yaa! 😘</p>
-      <button class="popup-btn" onclick="tutupSemua()">Peluk Erat ayangg! 🤗❤️</button>
+      <button class="popup-btn" onclick="tutupSemua()">Selesai & Peluk Erat! 🤗❤️</button>
     </div>
   </div>
 
@@ -204,12 +196,12 @@
       },
       3: {
         title: "Pop Up 3/5 ✨",
-        text: "Tahu nggak? Setiap hari yang aku lewatin bareng kamu tuh selalu jadi hari terbaik buat aku walaupun cuma VC untuk sekarang. Kamu itu alasan kenapa aku bisa senyum tiap hari.",
+        text: "Tahu nggak? Setiap hari yang aku lewatin bareng kamu tuh selalu jadi hari terbaik buat aku. Kamu itu alasan kenapa aku bisa senyum tiap hari.",
         btn: "Beneran? 🤭"
       },
       4: {
         title: "Pop Up 4/5 🌸",
-        text: "Makasih yaaa udah sabar sama segala sifat aku yang musang ini dan kadang ngeselin. Makasih udah selalu jadi orang yang paling baik buat aku. Aku beruntung banget punya kamu.",
+        text: "Makasih yaaa udah sabar sama segala sifat aku yang kadang ngeselin. Makasih udah selalu jadi orang yang paling baik buat aku. Aku beruntung banget punya kamu.",
         btn: "Makasih juga sayang 💕"
       },
       5: {
@@ -231,29 +223,27 @@
       }
     }
 
-    // FUNGSI KABUR KANAN KIRI (HORIZONTAL ONLY)
-    let isLeft = false; // Flag untuk menentukan posisi lompatan
-    
+    // FUNGSI KABUR KE SELURUH LAYAR HP
     function kabur() {
       const btnNo = document.getElementById('btnNo');
-      const container = btnNo.parentElement;
-      const containerWidth = container.offsetWidth;
-      const btnWidth = btnNo.offsetWidth;
 
-      // Kunci pergerakan secara absolut di dalam container
-      btnNo.style.position = 'absolute';
-      btnNo.style.right = 'auto'; // menghapus default right
-      btnNo.style.top = '30px';    // mengunci posisi vertikal baris agar sejajar
+      // Saat pertama kali disentuh/di-hover, ubah posisinya menjadi 'fixed' agar lepas dari flexbox
+      btnNo.style.position = 'fixed';
 
-      if (!isLeft) {
-        // Lompat ke paling kiri (aman dari tertumpuk)
-        btnNo.style.left = '30px';
-        isLeft = true;
-      } else {
-        // Lompat ke paling kanan (aman dari tertumpuk)
-        btnNo.style.left = (containerWidth - btnWidth - 30) + 'px';
-        isLeft = false;
-      }
+      // Jarak batas aman dari pinggir layar (dalam pixel)
+      const padding = 20;
+
+      // Hitung area maksimum pergerakan berdasarkan ukuran layar HP & ukuran tombol
+      const maxX = window.innerWidth - btnNo.offsetWidth - padding;
+      const maxY = window.innerHeight - btnNo.offsetHeight - padding;
+
+      // Menghasilkan koordinat posisi acak di seluruh layar
+      const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+      // Terapkan koordinat baru
+      btnNo.style.left = randomX + 'px';
+      btnNo.style.top = randomY + 'px';
     }
 
     function akhirBahagia() {

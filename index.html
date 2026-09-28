@@ -243,15 +243,15 @@
       // Kunci pergerakan secara absolut di dalam container
       btnNo.style.position = 'absolute';
       btnNo.style.right = 'auto'; // menghapus default right
-      btnNo.style.top = '10px';    // mengunci posisi vertikal baris agar sejajar
+      btnNo.style.top = '30px';    // mengunci posisi vertikal baris agar sejajar
 
       if (!isLeft) {
         // Lompat ke paling kiri (aman dari tertumpuk)
-        btnNo.style.left = '10px';
+        btnNo.style.left = '30px';
         isLeft = true;
       } else {
         // Lompat ke paling kanan (aman dari tertumpuk)
-        btnNo.style.left = (containerWidth - btnWidth - 10) + 'px';
+        btnNo.style.left = (containerWidth - btnWidth - 30) + 'px';
         isLeft = false;
       }
     }

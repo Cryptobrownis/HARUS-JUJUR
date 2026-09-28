@@ -47,8 +47,8 @@
     .heart::after { left: 10px; top: 0; }
 
     @keyframes bubble {
-      0% { transform: translateY(0) rotate(-45deg); opacity: 1; border-radius: 50% 50% 0 0; }
-      100% { transform: translateY(-1000px) rotate(-45deg); opacity: 0; border-radius: 50% 50% 0 0; }
+      0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+      100% { transform: translateY(-1000px) rotate(-45deg); opacity: 0; }
     }
 
     /* Kartu Utama */
@@ -81,7 +81,17 @@
     h1 { font-family: 'Sacramento', cursive; font-size: 2.8rem; color: #ff2a5f; margin-bottom: 10px; }
     p { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
     
-    .btn-container { display: flex; justify-content: center; gap: 15px; min-height: 50px; position: relative; }
+    /* MODIFIKASI CONTAINER TOMBOL */
+    .btn-container { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
+      gap: 15px; 
+      min-height: 60px; 
+      position: relative; 
+      width: 100%;
+      margin-top: 15px;
+    }
     button {
       padding: 10px 25px;
       font-size: 0.95rem;
@@ -91,8 +101,21 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .btn-yes { background: #ff4b2b; color: white; box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3); }
-    .btn-no { background: #ccc; color: #333; position: absolute; transition: left 0.1s ease, top 0.1s ease; }
+    .btn-yes { 
+      background: #ff4b2b; 
+      color: white; 
+      box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3); 
+      z-index: 2;
+    }
+    /* TOMBOL GAK MAU DI-LOCK */
+    .btn-no { 
+      background: #ccc; 
+      color: #333; 
+      position: absolute; 
+      transition: left 0.15s ease-in-out; 
+      z-index: 1;
+      right: 15px; /* Posisi awal kanan */
+    }
 
     /* Gaya overlay pop-up yang estetik */
     .overlay {
@@ -145,17 +168,17 @@
     </div>
   </div>
 
-  <!-- KARTU UTAMA (Akan Tampil Setelah Pop-up ke-5) -->
+  <!-- KARTU UTAMA -->
   <div class="card" id="mainCard">
-    <!-- Ganti URL gambar di bawah dengan fotomu bersama pacar -->
     <img class="photo" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Foto Bersama">
     <h1>Sekarang Jujur ya! ❤️</h1>
     <p>Setelah baca semua pesan tadi, intinya aku mau nanya satu hal ini aja...</p>
-    <p><strong>"nanti kalau ketemu kita wleo wleo yaaaa sampe dengkul geterrr?"</strong></p>
+    <p><strong>"Kamu mau nggak wleo-wleo sambil sayang-sayangan terus sama aku sampe kamu becek dan dengkul aku geterr?"</strong></p>
     
     <div class="btn-container">
       <button class="btn-yes" onclick="akhirBahagia()">Mau Banget! 🥰</button>
-      <button class="btn-no" id="btnNo" onmouseover="kabur()" onclick="kabur()">Gak Mau 😜</button>
+      <!-- Menambahkan event touch agar responsif di HP -->
+      <button class="btn-no" id="btnNo" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">Gak Mau 😜</button>
     </div>
   </div>
 
@@ -163,9 +186,9 @@
   <div id="popupAkhir" class="overlay" style="display: none;">
     <div class="popup-box">
       <h2>Yaaayy! 🥰💖🎉</h2>
-      <p>Aaaah seneng bangeeet! Makasih ya sayang udah mau bertahan dan terus bareng-bareng sama aku. Aku janji bakal terus sayang sama kamu.</p>
+      <p>Aaaah seneng bangeeet! Makasih ya sayang udah mau sayang dan dengerin aku terus. Aku janji bakal terus sayang sama kamu.</p>
       <p style="font-size: 0.8rem; color: #888;">Screenshot ini dan kirim ke aku yaa! 😘</p>
-      <button class="popup-btn" onclick="tutupSemua()">Selesai & Peluk Erat! 🤗❤️</button>
+      <button class="popup-btn" onclick="tutupSemua()">Peluk Erat ayangg! 🤗❤️</button>
     </div>
   </div>
 
@@ -181,12 +204,12 @@
       },
       3: {
         title: "Pop Up 3/5 ✨",
-        text: "Tahu nggak? Setiap hari yang aku lewatin bareng kamu tuh selalu jadi hari terbaik buat aku. Kamu itu alasan kenapa aku bisa senyum tiap hari.",
+        text: "Tahu nggak? Setiap hari yang aku lewatin bareng kamu tuh selalu jadi hari terbaik buat aku walaupun cuma VC untuk sekarang. Kamu itu alasan kenapa aku bisa senyum tiap hari.",
         btn: "Beneran? 🤭"
       },
       4: {
         title: "Pop Up 4/5 🌸",
-        text: "Makasih yaaa udah sabar sama segala sifat aku yang kadang ngeselin. Makasih udah selalu jadi orang yang paling baik buat aku. Aku beruntung banget punya kamu.",
+        text: "Makasih yaaa udah sabar sama segala sifat aku yang musang ini dan kadang ngeselin. Makasih udah selalu jadi orang yang paling baik buat aku. Aku beruntung banget punya kamu.",
         btn: "Makasih juga sayang 💕"
       },
       5: {
@@ -199,26 +222,38 @@
     function nextPopup() {
       popupStep++;
       if (popupStep <= 5) {
-        // Ganti konten pop-up secara dinamis
         document.getElementById('popup-title').innerText = popups[popupStep].title;
         document.getElementById('popup-text').innerText = popups[popupStep].text;
         document.querySelector('.popup-btn').innerText = popups[popupStep].btn;
       } else {
-        // Selesai 5 pop-up, hilangkan overlay dan tampilkan kartu utama
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('mainCard').classList.add('show');
       }
     }
 
-    // Fungsi tombol "Gak Mau" yang selalu kabur
+    // FUNGSI KABUR KANAN KIRI (HORIZONTAL ONLY)
+    let isLeft = false; // Flag untuk menentukan posisi lompatan
+    
     function kabur() {
       const btnNo = document.getElementById('btnNo');
-      // Menghasilkan posisi acak namun aman di dalam batas layar HP / Laptop
-      const x = Math.random() * (window.innerWidth - 150);
-      const y = Math.random() * (window.innerHeight - 160);
-      btnNo.style.position = 'fixed';
-      btnNo.style.left = x + 'px';
-      btnNo.style.top = y + 'px';
+      const container = btnNo.parentElement;
+      const containerWidth = container.offsetWidth;
+      const btnWidth = btnNo.offsetWidth;
+
+      // Kunci pergerakan secara absolut di dalam container
+      btnNo.style.position = 'absolute';
+      btnNo.style.right = 'auto'; // menghapus default right
+      btnNo.style.top = '10px';    // mengunci posisi vertikal baris agar sejajar
+
+      if (!isLeft) {
+        // Lompat ke paling kiri (aman dari tertumpuk)
+        btnNo.style.left = '10px';
+        isLeft = true;
+      } else {
+        // Lompat ke paling kanan (aman dari tertumpuk)
+        btnNo.style.left = (containerWidth - btnWidth - 10) + 'px';
+        isLeft = false;
+      }
     }
 
     function akhirBahagia() {
